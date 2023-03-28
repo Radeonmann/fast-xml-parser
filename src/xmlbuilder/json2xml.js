@@ -11,6 +11,7 @@ const defaultOptions = {
   format: false,
   indentBy: '  ',
   suppressEmptyNode: false,
+  spaceOnSelfClosingTag: false,
   suppressUnpairedNode: true,
   suppressBooleanAttributes: true,
   tagValueProcessor: function(key, a) {
@@ -182,9 +183,11 @@ Builder.prototype.buildObjectNode = function(val, key, attrStr, level) {
 Builder.prototype.closeTag = function(key){
   let closeTag = "";
   if(this.options.unpairedTags.indexOf(key) !== -1){ //unpaired
-    if(!this.options.suppressUnpairedNode) closeTag = "/"
+    if(!this.options.suppressUnpairedNode){
+      closeTag = this.options.spaceOnSelfClosingTag ? " /" : "/";
+    }
   }else if(this.options.suppressEmptyNode){ //empty
-    closeTag = "/";
+    closeTag = this.options.spaceOnSelfClosingTag ? " /" : "/";
   }else{
     closeTag = `></${key}`
   }

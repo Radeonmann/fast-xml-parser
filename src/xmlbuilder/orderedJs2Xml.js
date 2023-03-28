@@ -18,6 +18,8 @@ function arrToStr(arr, options, jPath, indentation) {
     let xmlStr = "";
     let isPreviousElementTag = false;
 
+    const selfClosingTag = options.spaceOnSelfClosingTag ? " />" : "/>";
+
     for (let i = 0; i < arr.length; i++) {
         const tagObj = arr[i];
         const tagName = propName(tagObj);
@@ -65,10 +67,10 @@ function arrToStr(arr, options, jPath, indentation) {
         const tagStart = indentation + `<${tagName}${attStr}`;
         const tagValue = arrToStr(tagObj[tagName], options, newJPath, newIdentation);
         if (options.unpairedTags.indexOf(tagName) !== -1) {
-            if (options.suppressUnpairedNode) xmlStr += tagStart + ">";
-            else xmlStr += tagStart + "/>";
+            if (options.suppressUnpairedNode) { xmlStr += tagStart + ">"; }
+            else { xmlStr += tagStart + selfClosingTag; }
         } else if ((!tagValue || tagValue.length === 0) && options.suppressEmptyNode) {
-            xmlStr += tagStart + "/>";
+            xmlStr += tagStart + selfClosingTag;
         } else if (tagValue && tagValue.endsWith(">")) {
             xmlStr += tagStart + `>${tagValue}${indentation}</${tagName}>`;
         } else {

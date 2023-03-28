@@ -57,6 +57,7 @@ type XmlBuilderOptions = {
   indentBy: string;
   arrayNodeName: string;
   suppressEmptyNode: boolean;
+  spaceOnSelfClosingTag: boolean;
   suppressUnpairedNode: boolean;
   suppressBooleanAttributes: boolean;
   preserveOrder: boolean;
